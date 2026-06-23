@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unity Production</title>
+    <style>
+        /* RESET & BASE STYLES */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #0b0b0b;
+            color: #ffffff;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            overflow-x: hidden;
+        }
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        a:hover {
+            opacity: 0.7;
+        }
+
+        /* LAYOUT CONTAINER */
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 50px;
+        }
+
+        /* HEADER */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 50px;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+        .header-left, .header-right {
+            display: flex;
+            gap: 35px;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            text-align: center;
+            padding: 40px 0 60px;
+        }
+        .hero h1 {
+            font-size: 140px;
+            font-weight: 900;
+            line-height: 0.85;
+            letter-spacing: -2px;
+            color: #e57c35;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+        }
+        .btn-orange {
+            background: #e57c35;
+            color: #000000;
+            padding: 14px 35px;
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: background 0.2s;
+        }
+        .btn-orange:hover {
+            background: #f09253;
+        }
+        .hero-subtitle {
+            font-size: 13px;
+            max-width: 580px;
+            margin: 80px auto 50px;
+            line-height: 1.5;
+            color: #e57c35;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+        .hero-banner {
+            width: 100%;
+            height: 560px;
+            background: url('https://images.unsplash.com/photo-1546519638-68e109498ffc?q=80&w=1440') center/cover no-repeat;
+        }
+
+        /* PORTFOLIO SECTION */
+        .section-title {
+            font-size: 75px;
+            font-weight: 900;
+            color: #e57c35;
+            text-transform: uppercase;
+            margin: 100px 0 50px;
+            line-height: 1;
+        }
+        .section-title span {
+            font-size: 16px;
+            vertical-align: super;
+            color: #444;
+            font-weight: 500;
+            margin-left: 10px;
+        }
+        
+        .grid-projects {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px 25px;
+        }
+        .project-card {
+            display: flex;
+            flex-direction: column;
+        }
+        .project-card.wide {
+            grid-column: span 2;
+        }
+        .card-meta {
+            font-size: 11px;
+            color: #e57c35;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+        .card-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+        .card-image {
+            width: 100%;
+            height: 250px;
+            background: #1a1a1a;
+            background-size: cover;
+            background-position: center;
+        }
+        .tall-image {
+            height: 540px !important;
+        }
+
+        /* HUGE LINK */
+        .huge-link-section {
+            margin: 100px 0;
+        }
+        .huge-link {
+            font-size: 85px;
+            font-weight: 900;
+            color: #e57c35;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 20px;
+            line-height: 1;
+        }
+
+        /* PLATFORMS NAV */
+        .platforms-nav {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #222;
+            padding: 20px 50px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #666;
+        }
+
+        /* SERVICES INTRO IMAGE */
+        .services-intro-bg {
+            width: 100%;
+            height: 500px;
+            background: url('https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=1440') center/cover no-repeat;
+            margin-top: 20px;
+        }
+
+        /* SERVICES & COSTS */
+        .services-actions {
+            margin: 40px 0 60px;
+            display: flex;
+            gap: 15px;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #333;
+            color: #ffffff;
+            padding: 14px 35px;
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: border-color 0.2s;
+        }
+        .btn-outline:hover {
+            border-color: #e57c35;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            border-top: 1px solid #222;
+            padding-top: 30px;
+            margin-bottom: 120px;
+        }
+        .service-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-right: 1px solid #222;
+            padding-right: 25px;
+        }
+        .service-card:last-child {
+            border-right: none;
+            padding-right: 0;
+        }
+        .service-card h3 {
+            font-size: 20px;
+            font-weight: 900;
+            color: #e57c35;
+            text-transform: uppercase;
+            line-height: 1.2;
+            margin-bottom: 30px;
+            min-height: 72px;
+        }
+        .service-card ul {
+            list-style: none;
+            font-size: 12px;
+            color: #888;
+            line-height: 2;
+            margin-bottom: 40px;
+        }
+        .service-card .price {
+            font-size: 24px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-top: auto;
+        }
+        .service-card .calc-link {
+            font-size: 14px;
+            font-weight: 900;
+            color: #e57c35;
+            text-transform: uppercase;
+            margin-top: auto;
+        }
+
+        /* ADVANTAGES SECTION */
+        .advantages-section {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 50px;
+            margin-bottom: 120px;
+            align-items: start;
+        }
+        .advantages-left {
+            font-size: 85px;
+            font-weight: 900;
+            color: #e57c35;
+            text-transform: uppercase;
+            line-height: 0.9;
+        }
+        .advantages-right {
+            display: flex;
+            flex-direction: column;
+        }
+        .adv-item {
+            border-top: 1px solid #222;
+            padding: 25px 0;
+        }
+        .adv-item:last-child {
+            border-bottom: 1px solid #222;
+        }
+        .adv-num {
+            font-size: 11px;
+            color: #e57c35;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .adv-text {
+            font-size: 13px;
+            line-height: 1.5;
+            color: #e57c35;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        /* CLIENTS */
+        .clients-section {
+            border-top: 1px solid #222;
+            padding-top: 20px;
+            margin-bottom: 80px;
+        }
+        .clients-meta {
+            font-size: 11px;
+            color: #444;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+        }
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border-top: 1px solid #1c1c1c;
+        }
+        .client-item {
+            padding: 40px 20px;
+            font-size: 26px;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: #ffffff;
+            border-right: 1px solid #1c1c1c;
+            position: relative;
+        }
+        .client-item:last-child {
+            border-right: none;
+        }
+        .client-item .client-num {
+            position: absolute;
+            bottom: 15px;
+            left: 20px;
+            font-size: 10px;
+            color: #333;
+            font-weight: normal;
+        }
+
+        /* FOOTER */
+        footer {
+            border-top: 1px solid #222;
+            padding: 80px 50px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+        .footer-col h4 {
+            font-size: 11px;
+            color: #444;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+        }
+        .footer-col ul {
+            list-style: none;
+            font-size: 12px;
+            line-height: 2.2;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .footer-col ul a {
+            color: #aaa;
+        }
+        .footer-col ul a:hover {
+            color: #e57c35;
+        }
+        .footer-contacts {
+            grid-column: span 2;
+        }
+        .footer-contacts .phone {
+            font-size: 52px;
+            font-weight: 900;
+            color: #e57c35;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        .footer-contacts .email {
+            font-size: 32px;
+            font-weight: 900;
+            color: #e57c35;
+            line-height: 1.1;
+            margin-bottom: 10px;
+        }
+        .footer-contacts .social-links {
+            font-size: 32px;
+            font-weight: 900;
+            color: #e57c35;
+            line-height: 1.1;
+            text-transform: uppercase;
+        }
+
+        /* GIANT BACKGROUND TEXT */
+        .giant-word {
+            font-size: 320px;
+            font-weight: 900;
+            color: #e57c35;
+            text-align: center;
+            line-height: 0.75;
+            margin-top: 40px;
+            letter-spacing: -12px;
+        }
+
+        /* СТИЛИ ДЛЯ МОДАЛЬНОГО ОКНА */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: #111;
+            border: 1px solid #e57c35;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+        }
+        .modal-content h2 {
+            font-size: 24px;
+            color: #e57c35;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            font-weight: 900;
+        }
+        .modal-close {
+            position: absolute;
+            top: 15px; right: 20px;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 12px;
+            color: #fff;
+            font-family: inherit;
+        }
+        .form-group input:focus {
+            border-color: #e57c35;
+            outline: none;
+        }
+        form {
+            display: block;
+            margin: 0; padding: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <a href="#">Услуги</a>
+            <a href="#">Проекты</a>
+            <a href="#">О нас</a>
+            <a href="#">Бриф</a>
+        </div>
+        <div class="header-right">
+            <a href="tel:+79317057855">+7 931 (705) 78-55</a>
+            <a href="#">Telegram</a>
+            <a href="/admin" style="color: #e57c35; font-weight: bold;">БД Админка</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Unity<br>Production</h1>
+        <button class="btn-orange" onclick="openModal('Главная форма')">Заказать проект</button>
+        <div class="hero-subtitle">
+            Мы создаем имиджевые видео для бизнеса с глубокой экспертизой в сфере промышленности и бизнес-инноваций.
+        </div>
+        <div class="hero-banner"></div>
+    </section>
+
+    <div class="container">
+        
+        <section>
+            <div class="section-title">Проекты <span>[ 12 ]</span></div>
+            
+            <div class="grid-projects">
+                <div class="project-card">
+                    <div class="card-meta">0-01: Газпром</div>
+                    <div class="card-title">Мероприятие</div>
+                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=500');"></div>
+                </div>
+                <div class="project-card wide">
+                    <div class="card-meta">0-02: Тим Юниор</div>
+                    <div class="card-title">Мероприятие</div>
+                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=1000');"></div>
+                </div>
+
+                <div class="project-card">
+                    <div class="card-meta">0-03: Gekkon</div>
+                    <div class="card-title">Промышленность</div>
+                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=500');"></div>
+                </div>
+                <div class="project-card">
+                    <div class="card-meta">0-04: Баскетбольная Сборная</div>
+                    <div class="card-title">Спорт</div>
+                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1519766304817-4f37bda74a27?q=80&w=500');"></div>
+                </div>
+                <div class="project-card">
+                    <div class="card-meta">0-05: Первый Экстремальный</div>
+                    <div class="card-title">Спорт</div>
+                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=500');"></div>
+                </div>
+
+                <div class="project-card wide">
+                    <div class="card-meta">0-06: Петербургский Нефтяной Терминал</div>
+                    <div class="card-title">Промышленность</div>
+                    <div class="card-image tall-image" style="background-image: url('https://images.unsplash.com/photo-1542282088-fe8426682b8f?q=80&w=1000');"></div>
+                </div>
+                <div class="project-card">
+                    <div class="card-meta">0-07: CPO Group</div>
+                    <div class="card-title">Юриспруденция</div>
+                    <div class="card-image tall-image" style="background-image: url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=500');"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="huge-link-section">
+            <a href="#" class="huge-link">Смотреть больше видео &rarr;</a>
+        </section>
+
+    </div>
+
+    <div class="platforms-nav">
+        <div>Vimeo</div>
+        <div>Behance</div>
+        <div>Rutube</div>
+        <div>Youtube</div>
+    </div>
+
+    <div class="services-intro-bg"></div>
+
+    <div class="container">
+        
+        <section style="margin-top: 60px;">
+            <div class="section-title" style="margin-top: 40px;">Услуги<br>& Стоимость</div>
+            
+            <div class="services-actions">
+                <button class="btn-outline" onclick="openModal('Кнопка: Бриф')">Заполнить бриф</button>
+                <button class="btn-orange" onclick="openModal('Кнопка: Услуги')">Заказать проект</button>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card">
+                    <div>
+                        <h3>00-1:<br>Имиджевый видеоролик о компании</h3>
+                        <ul>
+                            <li>— Сложный сценарий с раскадровкой</li>
+                            <li>— Стилистический монтаж</li>
+                            <li>— Индивидуальный звуковой дизайн</li>
+                            <li>— 4К качество</li>
+                        </ul>
+                    </div>
+                    <a href="#" class="calc-link">Рассчитать стоимость &rarr;</a>
+                </div>
+                <div class="service-card">
+                    <div>
+                        <h3>00-2:<br>Репортажная видеосъемка + монтаж</h3>
+                        <ul>
+                            <li>— Итоговый видеоролик с мероприятия</li>
+                            <li>— Отдача результата в течение 7 дней</li>
+                        </ul>
+                    </div>
+                    <div class="price">10 000 ₽/Час</div>
+                </div>
+                <div class="service-card">
+                    <div>
+                        <h3>00-3:<br>Репортажная фотосъемка</h3>
+                        <ul>
+                            <li>— От 50 обработанных фото с часа работы</li>
+                            <li>— Презентабельная онлайн-галерея</li>
+                        </ul>
+                    </div>
+                    <div class="price">5000 ₽/Час</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="advantages-section">
+            <div class="advantages-left">
+                Новый уровень видео &rarr;<br>&rarr;
+            </div>
+            <div class="advantages-right">
+                <div class="adv-item">
+                    <div class="adv-num">0-01:</div>
+                    <div class="adv-text">Команда профессионалов, которая сможет подчеркнуть уникальность вашего бизнеса</div>
+                </div>
+                <div class="adv-item">
+                    <div class="adv-num">0-02:</div>
+                    <div class="adv-text">Мы создаем эффективные имиджевые видеоролики, подчеркивающие уникальность вашего бренда</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="modal-overlay" id="orderModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <h2>Оставить заявку</h2>
+            
+            <form action="/order" method="POST">
+                <input type="hidden" name="form_type" id="modalFormType" value="">
+                
+                <div class="form-group">
+                    <label>Ваше имя</label>
+                    <input type="text" name="name" required placeholder="Иван">
+                </div>
+                
+                <div class="form-group">
+                    <label>Телефон</label>
+                    <input type="tel" name="phone" id="phone-mask" required placeholder="+7 (999) 999-99-99">
+                </div>
+                
+                <button type="submit" class="btn-orange" style="width: 100%;">Отправить в БД</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="giant-word">UNITY</div>
+
+    <script src="https://unpkg.com/imask"></script>
+    <script>
+        function openModal(type) {
+            document.getElementById('orderModal').style.display = 'flex';
+            document.getElementById('modalFormType').value = type;
+        }
+        function closeModal() {
+            document.getElementById('orderModal').style.display = 'none';
+        }
+
+        // Логика форматирования ввода
+        const phoneInput = document.getElementById('phone-mask');
+        const maskOptions = {
+            mask: '+7 (000) 000-00-00',
+            lazy: false
+        };
+        const mask = IMask(phoneInput, maskOptions);
+    </script>
+</body>
+</html>
